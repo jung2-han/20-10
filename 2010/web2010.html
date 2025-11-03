@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>20/10 – Điều bất ngờ cho Em</title>
+  <meta name="description" content="Trang web nhỏ xinh để chúc mừng 20/10 – dành riêng cho Em: đếm ngược, thư tay, bộ ảnh kỷ niệm và phần bật mí quà tặng."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f14;           /* nền tối sang trọng */
+      --card:#141823;         /* thẻ */
+      --soft:#1b2030;         /* nhấn */
+      --text:#eef2ff;         /* chữ */
+      --sub:#a9b4d0;          /* phụ */
+      --pink:#ff6ea9;         /* điểm hồng */
+      --violet:#8b5cf6;       /* tím */
+      --gold:#ffd166;         /* vàng */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); background: radial-gradient(1200px 800px at 10% -10%, #1e163f 0%, transparent 60%),
+                         radial-gradient(1000px 600px at 110% 10%, #301a57 0%, transparent 60%),
+                         var(--bg);
+      overflow-x:hidden;
+    }
+    .container{max-width:1120px;margin:0 auto;padding:24px}
+    header{position:relative;padding:48px 0 24px; text-align:center}
+    .brand{font-family:"Playfair Display", serif; font-size:40px; letter-spacing:.5px}
+    .brand span{background:linear-gradient(90deg,var(--pink),var(--violet));
+      -webkit-background-clip:text; background-clip:text; color:transparent}
+    .sub{color:var(--sub)}
+    .tabs{display:flex;gap:12px;justify-content:center;margin:18px 0 0}
+    .tab{padding:10px 16px;border:1px solid #2a2f45;border-radius:999px;cursor:pointer;
+      background:linear-gradient(180deg,#171b28 0%, #0f1220 100%); color:var(--text);
+      box-shadow:0 6px 20px rgba(0,0,0,.25); transition:.25s}
+    .tab.active{border-color:var(--violet); box-shadow:0 0 0 2px rgba(139,92,246,.25) inset}
+
+    /* hero */
+    .hero{position:relative;border:1px solid #222740;background:linear-gradient(180deg,#141828,#0c0f1c);
+      border-radius:24px;padding:28px;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}}
+    .hero h1{font-family:"Playfair Display",serif; font-size:44px; line-height:1.15;margin:0}
+    .hero p{margin:10px 0 18px;color:var(--sub)}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{padding:12px 18px;border-radius:14px;border:1px solid #2b3050;cursor:pointer;font-weight:600;
+      background:linear-gradient(180deg,#1a1f35,#11152a); color:var(--text); transition:.25s}
+    .btn:hover{transform:translateY(-1px);}
+    .btn.primary{border-color:transparent;background:linear-gradient(90deg,var(--pink),var(--violet)); color:#0c0c12}
+    .badge{display:inline-flex;align-items:center;gap:8px;border:1px dashed #384062;color:#c9d3ff;
+      padding:8px 12px;border-radius:999px;font-size:12px;margin-bottom:12px}
+    .countdown{display:flex;gap:10px;flex-wrap:wrap}
+    .timebox{background:#12162b;border:1px solid #2a2f45;border-radius:16px; padding:14px 16px;min-width:92px;text-align:center}
+    .timebox .n{font-size:26px;font-weight:700}
+    .illus{position:relative}
+    .heart{position:absolute;inset:auto auto 16px 16px; font-weight:700; color:#111; background:linear-gradient(90deg,#ffd1e0,#ffe59e);
+      padding:8px 12px;border-radius:12px}
+    canvas#confetti{position:absolute; inset:0; pointer-events:none;}
+
+    /* sections */
+    section{margin-top:28px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+    .card{grid-column:span 12; background:linear-gradient(180deg,#151a2b,#0f1324);border:1px solid #232845;border-radius:20px;padding:18px}
+    @media(min-width:900px){.span6{grid-column:span 6}}
+    .card h3{margin:4px 0 8px;font-size:22px}
+    .muted{color:var(--sub);font-size:14px}
+
+    /* Letters */
+    .letters{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .envelope{position:relative;border-radius:18px;padding:16px;border:1px solid #2a2f45;background:linear-gradient(180deg,#181d33,#0e1226);cursor:pointer;transition:.25s}
+    .envelope:hover{transform:translateY(-3px)}
+    .seal{position:absolute; right:14px; top:14px; background:linear-gradient(90deg,#ff9fc2,var(--pink)); color:#111; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700}
+    .letter-text{display:none;margin-top:8px;line-height:1.6}
+    .envelope.open .letter-text{display:block}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery img{width:100%; height:160px; object-fit:cover;border-radius:14px;border:1px solid #2a2f45}
+    @media(max-width:800px){.gallery{grid-template-columns:repeat(2,1fr)}}
+
+    /* Timeline */
+    .timeline{display:grid;gap:12px}
+    .step{display:grid;grid-template-columns:auto 1fr; gap:12px; align-items:start}
+    .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,var(--pink),var(--violet));margin-top:7px}
+    .plan{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .pill{border:1px solid #384062;border-radius:999px;padding:6px 10px;font-size:12px;color:#c9d3ff}
+
+    /* Reveal */
+    .reveal{display:flex;flex-direction:column;gap:10px}
+    .reveal-box{border:1px dashed #3a4264;border-radius:16px;padding:14px;background:linear-gradient(180deg,#13172b,#0e1222)}    .reveal-msg{font-size:18px}
+
+    /* Modal Video */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
+    .modal.show{display:flex}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(6,8,20,.65);backdrop-filter:blur(3px)}
+    .modal-dialog{position:relative;width:min(920px,92vw);background:linear-gradient(180deg,#13172b,#0e1222);border:1px solid #2b3150;border-radius:18px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+    .modal-close{position:absolute;right:8px;top:8px;border:1px solid #3a4264;background:#151a2b;color:#cbd5ff;border-radius:10px;padding:6px 10px;cursor:pointer}
+    .modal video{width:100%;max-height:80vh;object-fit:contain;border-radius:12px;border:1px solid #2b3150}
+
+    /* Footer */
+    footer{margin:36px 0;text-align:center;color:#9aa4c7}
+    .tiny{font-size:12px}
+    a.link{color:#cbb9ff;text-underline-offset:4px}
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="container">
+    <header>
+      <div class="brand">20/10 – <span>Vợ iu xinh đẹp</span></div>
+      <div class="sub">Một trang nhỏ xinh để gửi lời yêu thương đến <b>Em</b> 💐</div>
+      <div class="tabs" role="tablist" aria-label="Người nhận">
+        <button class="tab active" data-target="em">💖 Cho Vợ Trương Thị Ngọc Hân của anh</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="badge">20/10 – Việt Nam Women's Day • <span id="today"></span></div>
+  <h1 id="heroTitle">Em là món quà ngọt ngào nhất!</h1>
+  <p id="heroDesc">Trang nhỏ này dành riêng cho em – có đếm ngược, thư tình mini và bí mật nho nhỏ cho tối nay. 20/10 vui thiệt vui nhé!</p>
+        <div class="cta-row">
+          <button class="btn primary" id="btnPlay">Phát nhạc nền ♪</button>
+          <button class="btn" id="btnShare">Sao chép link 📋</button>
+        </div>
+        <div style="height:12px"></div>
+        <div class="countdown" aria-live="polite">
+          <div class="timebox"><div class="n" id="dd">--</div><div>Ngày</div></div>
+          <div class="timebox"><div class="n" id="hh">--</div><div>Giờ</div></div>
+          <div class="timebox"><div class="n" id="mm">--</div><div>Phút</div></div>
+          <div class="timebox"><div class="n" id="ss">--</div><div>Giây</div></div>
+        </div>
+      </div>
+      <div class="illus">
+        <img alt="Hoa và ánh đèn tím" src="C:\Users\OS\Downloads\2010\images\anh01.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:16px;border:1px solid #2a2f45"/>
+        <div class="heart">20/10 ♥</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card span6">
+        <h3>Thư nhỏ</h3>
+        <div class="muted">Nhấp để mở phong bì ✉️</div>
+        <div class="letters" id="letters"></div>
+      </div>
+      <div class="card span6">
+        <h3>Bộ ảnh kỷ niệm</h3>
+        <div class="muted">Con heo hư  <code> Đẻ 10 đứa cho anh</code></div>
+        <div class="gallery" id="gallery">
+          <img src="C:\Users\OS\Downloads\2010\images\4.jpg" alt="Kỷ niệm 1">
+          <img src="C:\Users\OS\Downloads\2010\images\3.jpg" alt="Kỷ niệm 2">
+          <img src="C:\Users\OS\Downloads\2010\images\2.jpg" alt="Kỷ niệm 3">
+          <img src="C:\Users\OS\Downloads\2010\images\1.jpg" alt="Kỷ niệm 4">
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card span6">
+        <h3>Mốc đáng nhớ</h3>
+        <div class="timeline" id="timeline"></div>
+      </div>
+      <div class="card span6">
+        <h3>Bật mí bất ngờ 🎁</h3>
+        <div class="reveal">
+          <div class="reveal-box">
+            <div class="muted">Nhấn nút bên dưới để mở</div>
+            <div class="reveal-msg" id="revealMsg">(Đang khóa…)</div>
+          </div>
+          <div class="plan">
+            <button class="btn primary" id="btnReveal">Mở quà 1</button>
+            <button class="btn primary" id="btnReveal2">Mở quà 2</button>
+            <button class="btn primary" id="btnReveal3">Mở quà 3</button>
+            <button class="btn" id="btnLock">Khóa lại</button>
+          </div>
+          <div class="muted tiny">Đi nhì ngả anh có lời nói nhỏ</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>Made with ♥ Ngọc Hân <b>Chồng iu của em Nguyễn Dũng</b></div>
+      <div class="tiny">Deginer: Nguyễn Tấn Dũng
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal Video Surprise -->
+  <div id="videoModal" class="modal" role="dialog" aria-modal="true" aria-label="Video bất ngờ 20/10">
+    <div class="modal-backdrop" id="backdrop"></div>
+    <div class="modal-dialog">
+      <button class="modal-close" id="closeModal" aria-label="Đóng">✕</button>
+      <video id="surpriseVideo" controls playsinline>
+        <source id="surpriseSource" src="" type="video/mp4" />
+        Trình duyệt của bạn không hỗ trợ video.
+      </video>
+    </div>
+  </div>
+
+  <audio id="bgm" preload="auto">
+    <!-- File nhạc nền -->
+    <source id="bgmSource" src="audio/nhacnen.mp3" type="audio/mpeg" />
+    <source id="bgmSource2" src="audio/nhacnen2.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    // ======= State cho 2 người nhận =======
+    const DATA = {
+      em: {
+        title: "Em là món quà ngọt ngào nhất!",
+        desc: "Trang nhỏ này dành riêng cho em – có đếm ngược, thư tình mini và bí mật nho nhỏ cho tối nay. 20/10 vui thiệt vui nhé!",
+        letters: [
+          {title:"Thầm thì", text:"Cảm ơn em vì đã đến, ở lại và làm ngày của anh rực rỡ. Chúc vợ iu của anh vui vẻ!"},
+          {title:"Kỷ niệm", text:"Em còn nhớ lần đầu mình chơi lửa chùa không? Từ đó mỗi khoảnh khắc anh đều nhớ về vợ."},
+          {title:"Hứa hẹn", text:"Anh hứa sẽ lắng nghe, sẻ chia và những chuyện em thấy vui và buồn."}
+        ],
+        timeline: [
+          {when:"Sau giờ làm", what:"Đón vợ về nhà"},
+          {when:"21h50", what:"Chở vợ đi ăn, đi chơi"},
+          {when:"23h00", what:"Hai đứa mình đi xem phim rồi đi nhà nghỉ 😉"}
+        ],
+        reveal: "21h30 tối nay – Hai vợ chồng <b>Café Ngắm Phố</b> bàn cạnh cửa kính. Có một món quà nhỏ cho vợ",
+        reveal2: "Bất ngờ thứ hai dành cho em...",
+        video: "media/vo-iu.mp4",
+        video2: "media/vo-iu2.mp4",
+        video3: "media/vo-iu3.mp4"
+      }
+    }
+
+    // ======= Helper =======
+    window.addEventListener('load', function() {
+      // Initialize
+      const todayEl = document.getElementById('today');
+      const heroTitle = document.getElementById('heroTitle');
+      const heroDesc = document.getElementById('heroDesc');
+      const lettersWrap = document.getElementById('letters');
+      const timelineWrap = document.getElementById('timeline');
+      const revealMsg = document.getElementById('revealMsg');
+      const btnReveal = document.getElementById('btnReveal');
+      const btnReveal2 = document.getElementById('btnReveal2');
+      const btnLock = document.getElementById('btnLock');
+      const btnPlay = document.getElementById('btnPlay');
+      const btnShare = document.getElementById('btnShare');
+      const btnConfetti = document.getElementById('btnConfetti');
+      
+      // Set today's date
+      todayEl.textContent = new Date().toLocaleDateString('vi-VN', {
+        weekday:'long', 
+        day:'2-digit', 
+        month:'2-digit', 
+        year:'numeric'
+      });
+
+      // Render initial content
+      const d = DATA.em;
+      heroTitle.textContent = d.title;
+      heroDesc.textContent = d.desc;
+
+      // Render letters
+      lettersWrap.innerHTML = d.letters.map(it => `
+        <div class="envelope" role="button" aria-expanded="false">
+          <div class="seal">Mở thư</div>
+          <div><b>${it.title}</b></div>
+          <div class="letter-text">${it.text}</div>
+        </div>
+      `).join('');
+
+      // Render timeline
+      timelineWrap.innerHTML = d.timeline.map(it => `
+        <div class="step">
+          <div class="dot"></div>
+          <div><b>${it.when}</b><div class="muted">${it.what}</div></div>
+        </div>
+      `).join('');
+
+      // Bind envelope clicks
+      document.querySelectorAll('#letters .envelope').forEach(el => {
+        el.addEventListener('click', function() {
+          this.classList.toggle('open');
+          this.setAttribute('aria-expanded', this.classList.contains('open'));
+          burstConfetti();
+        });
+      });
+
+      // Bind reveal buttons
+      btnReveal.addEventListener('click', function() {
+        revealMsg.innerHTML = d.reveal;
+        if (d.video) {
+          surpriseSource.src = d.video;
+          surpriseVideo.load();
+          openModal();
+          surpriseVideo.play().catch(() => {});
+        }
+        burstConfetti();
+      });
+
+      btnReveal2.addEventListener('click', function() {
+        if (d.reveal2) {
+          revealMsg.innerHTML = d.reveal2;
+        }
+        if (d.video2) {
+          surpriseSource.src = d.video2;
+          surpriseVideo.load();
+          openModal();
+          surpriseVideo.play().catch(() => {});
+        }
+        burstConfetti();
+      });
+
+      const btnReveal3 = document.getElementById('btnReveal3');
+      btnReveal3.addEventListener('click', function() {
+        if (d.reveal3) {
+          revealMsg.innerHTML = d.reveal3;
+        }
+        if (d.video3) {
+          surpriseSource.src = d.video3;
+          surpriseVideo.load();
+          openModal();
+          surpriseVideo.play().catch(() => {});
+        }
+        burstConfetti();
+      });
+
+      btnLock.addEventListener('click', function() {
+        revealMsg.textContent = '(Đang khóa…)';
+        closeModal();
+      });
+
+      // Share button
+      btnShare.addEventListener('click', async function() {
+        try {
+          await navigator.clipboard.writeText(location.href);
+          toast('Đã sao chép link!');
+        } catch(e) {
+          toast('Không sao chép được, hãy tự copy URL.');
+        }
+      });
+
+      // Confetti button
+      btnConfetti.addEventListener('click', burstConfetti);
+    });
+
+    // ======= Đếm ngược đến 20/10 =======
+    function next2010(){
+      const now = new Date();
+      let y = now.getFullYear();
+      const target = new Date(y, 9, 20, 0, 0, 0); // Tháng 9 = October
+      if(now > target) return new Date(y+1, 9, 20, 0, 0, 0);
+      return target;
+    }
+    const targetTime = next2010();
+    const dd=document.getElementById('dd');
+    const hh=document.getElementById('hh');
+    const mm=document.getElementById('mm');
+    const ss=document.getElementById('ss');
+    setInterval(()=>{
+      const now = new Date();
+      let s = Math.max(0, Math.floor((targetTime - now)/1000));
+      const d = Math.floor(s/86400); s-=d*86400;
+      const h = Math.floor(s/3600);  s-=h*3600;
+      const m = Math.floor(s/60);    s-=m*60;
+      dd.textContent=d; hh.textContent=h; mm.textContent=m; ss.textContent=s;
+    },1000);
+
+    // ======= Reveal box =======
+    const modal = document.getElementById('videoModal');
+    const backdrop = document.getElementById('backdrop');
+    const closeModalBtn = document.getElementById('closeModal');
+    const surpriseVideo = document.getElementById('surpriseVideo');
+    const surpriseSource = document.getElementById('surpriseSource');
+
+    // Video error handler -> show toast and log details when video fails to load/play
+    surpriseVideo.addEventListener('error', () => {
+      console.error('Video failed to load/play', surpriseVideo.error);
+      toast('Lỗi: video không tải được. Kiểm tra đường dẫn và mở console để biết chi tiết.');
+    });
+
+    function openModal(){ modal.classList.add('show'); }
+    function closeModal(){ modal.classList.remove('show'); try{ surpriseVideo.pause(); }catch(e){} }
+    backdrop.addEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+    
+    document.getElementById('btnReveal').addEventListener('click', ()=>{
+      const active = document.querySelector('.tab.active').dataset.target;
+      revealMsg.innerHTML = DATA[active].reveal;
+      if (DATA[active].video){
+        surpriseSource.src = DATA[active].video;
+        surpriseVideo.load();
+        openModal();
+        surpriseVideo.play().catch(()=>{});
+      } else {
+        toast('Chưa cấu hình video cho mục này.');
+      }
+      burstConfetti();
+    });
+
+    document.getElementById('btnReveal2').addEventListener('click', ()=>{
+      const active = document.querySelector('.tab.active').dataset.target;
+      if (DATA[active].reveal2) {
+        revealMsg.innerHTML = DATA[active].reveal2;
+      }
+      if (DATA[active].video2){
+        surpriseSource.src = DATA[active].video2;
+        surpriseVideo.load();
+        openModal();
+        surpriseVideo.play().catch(()=>{});
+      } else {
+        toast('Chưa cấu hình video thứ hai.');
+      }
+      burstConfetti();
+    });
+    document.getElementById('btnLock').addEventListener('click', ()=>{
+      revealMsg.textContent = '(Đang khóa…)';
+      closeModal();
+    });
+
+    // ======= Music Control =======
+    window.addEventListener('load', function() {
+      const audio = document.getElementById('bgm');
+      const btnPlay = document.getElementById('btnPlay');
+      let playing = false;
+      let currentTrack = 1;
+      const tracks = [
+        'audio/nhacnen.mp3',
+        'audio/nhacnen2.mp3'
+      ];
+
+      // Load audio once on page load
+      try {
+        audio.load();
+        audio.volume = 0.5; // Set volume to 50%
+      } catch (err) {
+        console.error('Audio load error:', err);
+      }
+
+      function playNextTrack() {
+        currentTrack = (currentTrack + 1) % tracks.length;
+        audio.src = tracks[currentTrack];
+        audio.load();
+        audio.play().then(() => {
+          playing = true;
+          btnPlay.textContent = 'Tạm dừng ♪';
+        }).catch(error => {
+          console.error('Cannot play next track:', error);
+          toast('Không thể phát bài tiếp theo');
+        });
+      }
+
+      audio.addEventListener('error', function(e) {
+        console.error('Audio error:', e);
+        toast('Không tìm thấy file nhạc. Kiểm tra thư mục audio/');
+      });
+
+      btnPlay.addEventListener('click', async function() {
+        try {
+          if (playing) {
+            await audio.pause();
+            playing = false;
+            btnPlay.textContent = 'Phát nhạc nền ♪';
+          } else {
+            try {
+              // Ensure we're using the current track
+              audio.src = tracks[currentTrack];
+              audio.load();
+              await audio.play();
+              playing = true;
+              btnPlay.textContent = 'Tạm dừng ♪';
+            } catch (playError) {
+              console.error('Audio play failed:', playError);
+              if (playError.name === 'NotAllowedError') {
+                toast('Vui lòng bật quyền phát nhạc trên trình duyệt');
+              } else if (playError.name === 'NotFoundError') {
+                toast('Không tìm thấy file nhạc trong thư mục audio/');
+              } else {
+                toast('Lỗi phát nhạc: ' + playError.message);
+              }
+            }
+          }
+        } catch (err) {
+          console.error('Audio control error:', err);
+          toast('Lỗi điều khiển audio: ' + err.message);
+        }
+      });
+
+      // Handle audio end - play next track automatically
+      audio.addEventListener('ended', function() {
+        playNextTrack();
+      });
+    });
+
+    // ======= Mini toast =======
+    function toast(msg){
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.style.position='fixed'; el.style.bottom='18px'; el.style.left='50%'; el.style.transform='translateX(-50%)';
+      el.style.background='linear-gradient(90deg,var(--pink),var(--violet))';
+      el.style.color='#0f0f14'; el.style.padding='10px 14px'; el.style.borderRadius='999px'; el.style.fontWeight='700'; el.style.zIndex=9;
+      document.body.appendChild(el); setTimeout(()=> el.remove(), 1800);
+    }
+
+    // ======= Confetti đơn giản =======
+    const cvs = document.getElementById('confetti');
+    const ctx = cvs.getContext('2d');
+    let W,H; function resize(){ W=window.innerWidth; H=window.innerHeight; cvs.width=W; cvs.height=H; }
+    window.addEventListener('resize', resize); resize();
+
+    const pieces = [];
+    let lastSpawnTime = 0;
+    
+    function spawnHeart() {
+      const now = Date.now();
+      // Tạo tim mới mỗi 100ms và tạo nhiều tim cùng lúc
+      if (now - lastSpawnTime > 100) {
+        // Tạo 3 tim cùng lúc ở các vị trí khác nhau
+        for(let i = 0; i < 3; i++) {
+          pieces.push({
+            x: (i * W/3) + Math.random()*(W/3), // Phân bố đều theo chiều ngang
+            y: H + 10, // Bắt đầu từ dưới màn hình
+            s: 8+Math.random()*8, // Tim to hơn (gấp đôi kích thước)
+            vx: -0.8+Math.random()*1.6, // Di chuyển đa dạng hơn
+            vy: -1.2-Math.random()*0.8, // Bay lên với tốc độ khác nhau
+            a: Math.random()*Math.PI,
+            life: 250+Math.random()*150, // Sống lâu hơn một chút
+            color: Math.random() > 0.5 ? '#ff6ea9' : '#ff9fc2',
+            scale: 0.8 + Math.random()*0.4 // Thêm hiệu ứng co giãn
+          });
+        }
+        lastSpawnTime = now;
+      }
+    }
+
+    // Tạo hiệu ứng bùng nổ tim
+    function burstConfetti(){
+      for(let i=0;i<50;i++){ // Tăng số lượng tim trong hiệu ứng bùng nổ
+        pieces.push({
+          x: W/2 + (Math.random()-0.5)*W/2, // Tập trung hơn vào giữa màn hình
+          y: H/2 + (Math.random()-0.5)*H/3,
+          s: 8+Math.random()*8, // Tim to hơn
+          vx: -3+Math.random()*6, // Tốc độ bay ngang đa dạng hơn
+          vy: -4-Math.random()*2, // Bay lên cao hơn
+          a: Math.random()*Math.PI*2,
+          life: 200+Math.random()*150,
+          color: Math.random() > 0.5 ? '#ff6ea9' : '#ff9fc2',
+          scale: 0.8 + Math.random()*0.6 // Thêm hiệu ứng co giãn
+        });
+      }
+    }
+
+    function drawHeart(ctx, x, y, size) {
+      ctx.beginPath();
+      ctx.moveTo(x, y + size / 4);
+      ctx.quadraticCurveTo(x, y, x + size / 4, y);
+      ctx.quadraticCurveTo(x + size / 2, y, x + size / 2, y + size / 4);
+      ctx.quadraticCurveTo(x + size / 2, y, x + size * 3/4, y);
+      ctx.quadraticCurveTo(x + size, y, x + size, y + size / 4);
+      ctx.quadraticCurveTo(x + size, y + size / 2, x + size / 2, y + size * 3/4);
+      ctx.quadraticCurveTo(x, y + size / 2, x, y + size / 4);
+      ctx.fill();
+    }
+
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      
+      // Tạo tim mới bay lên
+      spawnHeart();
+      
+      for(let i=pieces.length-1;i>=0;i--){
+        const p = pieces[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.a += 0.02;
+        // Thêm hiệu ứng chuyển động sin wave nhẹ
+        p.x += Math.sin(p.life/20) * 0.5;
+        p.life--;
+        
+        // Tính toán scale theo thời gian sống
+        const scale = p.scale * (1 + Math.sin(p.life/15) * 0.1); // Hiệu ứng đập nhẹ
+        
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.a);
+        ctx.scale(scale, scale);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.min(1, p.life/100);
+        drawHeart(ctx, -p.s, -p.s, p.s*2);
+        ctx.restore();
+        
+        // Xóa tim khi bay ra khỏi màn hình hoặc hết thời gian sống
+        if(p.y < -20 || p.y > H+20 || p.life<=0) pieces.splice(i,1);
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  </script>
+</body>
+</html>
